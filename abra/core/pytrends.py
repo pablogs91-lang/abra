@@ -11,6 +11,7 @@ import json
 import html
 
 from pytrends.request import TrendReq
+from abra.config.secrets import SERPAPI_KEY
 
 
 

@@ -567,13 +567,8 @@ def render_empty_state(icon, title, message, suggestions=None):
     </div>
     '''
     
-    # Intentar diferentes métodos según disponibilidad
-    try:
-        # Método 1: st.write con unsafe_allow_html (más compatible)
-        st.write(html_content, unsafe_allow_html=True)
-    except Exception as e:
-        # Método 2: st.markdown como fallback
-        st.markdown(html_content, unsafe_allow_html=True)
+    # Usar solo st.markdown para evitar problemas
+    st.markdown(html_content, unsafe_allow_html=True)
 
 
 def render_no_queries_state():

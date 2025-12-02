@@ -43,12 +43,13 @@ def render_manual_search(search_query: str, selected_countries: list,
             "Marca o keyword",
             placeholder="Ej: Logitech, ASUS ROG, Razer...",
             label_visibility="collapsed",
-            value=st.session_state.search_query
+            value=st.session_state.search_query,
+            key="manual_search_query"
         )
     
     with col2:
         st.markdown("<br>", unsafe_allow_html=True)
-        search_button = st.button("🔍 Analizar", type="primary", use_container_width=True)
+        search_button = st.button("🔍 Analizar", type="primary", use_container_width=True, key="manual_search_button")
     
     if search_button and search_query and selected_countries:
         # Usar nueva función multi-canal
