@@ -143,6 +143,120 @@ def calculate_relevance(query, categories):
     return max_score, best_matches, best_category
 
 
+def filter_queries_by_categories(queries_data, categories, threshold):
+    """
+    Filtra related queries basándose en las categorías seleccionadas.
+    
+    Args:
+        queries_data (dict): Datos de queries de pytrends
+        categories (list): Categorías seleccionadas
+        threshold (int): Umbral de relevancia mínimo
+        
+    Returns:
+        dict: Queries filtradas con información de categoría
+    """
+    if not queries_data or not categories:
+        return queries_data
+    
+    filtered_data = {
+        'related_queries': {
+            'top': [],
+            'rising': []
+        }
+    }
+    
+    # Filtrar queries TOP
+    if 'related_queries' in queries_data and 'top' in queries_data['related_queries']:
+        for query_item in queries_data['related_queries']['top']:
+            query_text = query_item.get('query', '')
+            if not query_text:
+                continue
+                
+            relevance, matches, category = calculate_relevance(query_text, categories)
+            
+            if relevance >= threshold:
+                # Añadir metadata de categoría
+                query_item['category'] = category
+                query_item['relevance'] = relevance
+                query_item['matched_keywords'] = matches
+                filtered_data['related_queries']['top'].append(query_item)
+    
+    # Filtrar queries RISING
+    if 'related_queries' in queries_data and 'rising' in queries_data['related_queries']:
+        for query_item in queries_data['related_queries']['rising']:
+            query_text = query_item.get('query', '')
+            if not query_text:
+                continue
+                
+            relevance, matches, category = calculate_relevance(query_text, categories)
+            
+            if relevance >= threshold:
+                # Añadir metadata de categoría
+                query_item['category'] = category
+                query_item['relevance'] = relevance
+                query_item['matched_keywords'] = matches
+                filtered_data['related_queries']['rising'].append(query_item)
+    
+    return filtered_data
+
+
+def filter_topics_by_categories(topics_data, categories, threshold):
+    """
+    Filtra related topics basándose en las categorías seleccionadas.
+    
+    Args:
+        topics_data (dict): Datos de topics de pytrends
+        categories (list): Categorías seleccionadas
+        threshold (int): Umbral de relevancia mínimo
+        
+    Returns:
+        dict: Topics filtrados con información de categoría
+    """
+    if not topics_data or not categories:
+        return topics_data
+    
+    filtered_data = {
+        'related_topics': {
+            'top': [],
+            'rising': []
+        }
+    }
+    
+    # Filtrar topics TOP
+    if 'related_topics' in topics_data and 'top' in topics_data['related_topics']:
+        for topic_item in topics_data['related_topics']['top']:
+            topic_title = topic_item.get('topic', {}).get('title', '')
+            if not topic_title:
+                continue
+                
+            relevance, matches, category = calculate_relevance(topic_title, categories)
+            
+            if relevance >= threshold:
+                # Añadir metadata de categoría
+                topic_item['category'] = category
+                topic_item['relevance'] = relevance
+                topic_item['matched_keywords'] = matches
+                filtered_data['related_topics']['top'].append(topic_item)
+    
+    # Filtrar topics RISING
+    if 'related_topics' in topics_data and 'rising' in topics_data['related_topics']:
+        for topic_item in topics_data['related_topics']['rising']:
+            topic_title = topic_item.get('topic', {}).get('title', '')
+            if not topic_title:
+                continue
+                
+            relevance, matches, category = calculate_relevance(topic_title, categories)
+            
+            if relevance >= threshold:
+                # Añadir metadata de categoría
+                topic_item['category'] = category
+                topic_item['relevance'] = relevance
+                topic_item['matched_keywords'] = matches
+                filtered_data['related_topics']['rising'].append(topic_item)
+    
+    return filtered_data
+
+
 def classify_query_type(query):
     """Clasifica si es pregunta o atributo"""
     question_words = ["qué", "cuál", "cómo", "dónde", "cuándo", "quién", "por qué",
@@ -478,12 +592,13 @@ def analyze_all_channels(brand, countries, categories, threshold):
     """
     Analiza la marca en TODOS los canales simultáneamente.
     Consolida y estructura todos los datos de forma unificada.
+    AHORA con filtrado por categorías.
     
     Args:
         brand (str): Marca a analizar
         countries (list): Países a analizar
-        categories (list): Categorías
-        threshold (int): Umbral de relevancia
+        categories (list): Categorías seleccionadas para filtrar
+        threshold (int): Umbral de relevancia (0-100)
     
     Returns:
         dict: Datos estructurados y consolidados de todos los canales
@@ -514,6 +629,11 @@ def analyze_all_channels(brand, countries, categories, threshold):
                     
                     topics = get_related_topics(brand, geo, gprop)
                     time.sleep(0.5)
+                    
+                    # NUEVO: Filtrar queries y topics por categorías
+                    if categories:
+                        queries = filter_queries_by_categories(queries, categories, threshold)
+                        topics = filter_topics_by_categories(topics, categories, threshold)
                     
                     # Calcular cambios
                     month_change, quarter_change, year_change, avg_value = calculate_changes(timeline)
@@ -597,7 +717,10 @@ def consolidate_channel_data(channel_results, brand, geo):
                             'query': q.get('query', ''),
                             'value': q.get('value', 0),
                             'channel': channel_key,
-                            'channel_name': data['name']
+                            'channel_name': data['name'],
+                            'category': q.get('category', 'N/A'),
+                            'relevance': q.get('relevance', 100),
+                            'matched_keywords': q.get('matched_keywords', [])
                         })
             
             # Consolidar topics
@@ -609,7 +732,10 @@ def consolidate_channel_data(channel_results, brand, geo):
                             'type': t.get('topic', {}).get('type', ''),
                             'value': t.get('value', 0),
                             'channel': channel_key,
-                            'channel_name': data['name']
+                            'channel_name': data['name'],
+                            'category': t.get('category', 'N/A'),
+                            'relevance': t.get('relevance', 100),
+                            'matched_keywords': t.get('matched_keywords', [])
                         })
     
     consolidated['channel_volumes'] = channel_volumes

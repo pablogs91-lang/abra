@@ -13,6 +13,8 @@ import html
 import plotly.graph_objects as go
 import plotly.express as px
 
+from abra.config.constants import PRODUCT_CATEGORIES
+
 
 
 def render_query_with_bar(query_text, value, max_value, index, query_type="Query", relevance=0, trend_values=None):
@@ -1062,6 +1064,26 @@ def render_multi_channel_results(brand, geo, country_data, categories, threshold
                     for idx_q, q in enumerate(top_queries, 1):
                         query_text = q.get('query', '')
                         value = q.get('value', 0)
+                        category = q.get('category', '')
+                        relevance = q.get('relevance', 100)
+                        
+                        # Badge de categoría si existe
+                        category_badge = ""
+                        if category and category != 'N/A':
+                            icon = PRODUCT_CATEGORIES.get(category, {}).get('icon', '🏷️')
+                            category_badge = f"""
+                            <span style="
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                color: white;
+                                padding: 0.2rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.75rem;
+                                font-weight: 600;
+                                margin-left: 0.5rem;
+                            ">
+                                {icon} {category}
+                            </span>
+                            """
                         
                         st.markdown(f"""
                         <div style="
@@ -1072,6 +1094,7 @@ def render_multi_channel_results(brand, geo, country_data, categories, threshold
                             margin-bottom: 0.5rem;
                         ">
                             <strong>{idx_q}. {query_text}</strong>
+                            {category_badge}
                             <span style="float: right; color: #FF6B00; font-weight: 600;">
                                 {value}
                             </span>
@@ -1089,8 +1112,13 @@ def render_multi_channel_results(brand, geo, country_data, categories, threshold
                         
                         topics_list = []
                         for t in top_topics:
+                            category = t.get('category', 'N/A')
+                            icon = PRODUCT_CATEGORIES.get(category, {}).get('icon', '🏷️') if category != 'N/A' else ''
+                            category_display = f"{icon} {category}" if category != 'N/A' else 'N/A'
+                            
                             topics_list.append({
                                 'Topic': t.get('topic', {}).get('title', 'N/A'),
+                                'Categoría': category_display,
                                 'Tipo': t.get('topic', {}).get('type', 'N/A'),
                                 'Valor': t.get('value', 0)
                             })

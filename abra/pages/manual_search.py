@@ -87,6 +87,20 @@ def render_manual_search(search_query: str, selected_countries: list,
             </div>
             """, unsafe_allow_html=True)
             
+            # Mostrar filtros activos
+            if selected_categories:
+                categories_display = ", ".join([
+                    f"{PRODUCT_CATEGORIES[cat]['icon']} {cat}" 
+                    for cat in selected_categories
+                ])
+                st.info(f"""
+                🎯 **Filtrado activo por categorías:** {categories_display}  
+                📊 **Umbral de relevancia:** {relevance_threshold}%  
+                ℹ️ Solo se muestran queries y topics que coincidan con las categorías seleccionadas
+                """)
+            else:
+                st.info("ℹ️ **Sin filtrado por categorías** - Se muestran todos los resultados")
+            
             # NUEVO: Botones de Export
             st.markdown("---")
             st.markdown("### 📥 Exportar Resultados")
