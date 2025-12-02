@@ -181,9 +181,10 @@ with toolbar_container:
         selected_categories = st.multiselect(
             "🎯 Categorías",
             options=list(PRODUCT_CATEGORIES.keys()),
-            default=["Periféricos"],
+            default=[],  # Sin default - usuario elige lo que necesita
             format_func=lambda x: f"{PRODUCT_CATEGORIES[x]['icon']} {x}",
-            key="categories"
+            key="categories",
+            help="Selecciona las categorías de productos que quieres analizar"
         )
     
     with col4:

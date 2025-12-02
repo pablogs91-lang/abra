@@ -276,3 +276,44 @@ If you find this project useful, please consider giving it a star on GitHub!
 ---
 
 **Built with ❤️ using Python, Streamlit, and professional software engineering practices.**
+
+## 🎯 Product Categories Supported
+
+Abra supports comprehensive analysis across 20+ product categories:
+
+### 💻 Internal Components
+- **Placas Base** 🔌 - Motherboards, chipsets, sockets
+- **Tarjetas Gráficas** 🎮 - GPUs (NVIDIA, AMD)
+- **Procesadores** ⚙️ - CPUs (Intel, AMD)
+- **Discos Duros** 💾 - HDDs, SATA drives
+- **SSD** ⚡ - Solid state drives, NVMe, M.2
+- **Memoria RAM** 🧮 - DDR4, DDR5 memory
+
+### ❄️ Cooling Solutions
+- **Refrigeración Líquida** 💧 - AIO, custom loops
+- **Ventiladores** 🌀 - Case fans, RGB fans
+- **Ventiladores CPU** ❄️ - CPU coolers, heatsinks
+
+### 🏗️ Cases & Power
+- **Torres y Cajas** 🏢 - PC cases, chassis
+- **Fuentes de Alimentación** 🔋 - PSUs, modular power supplies
+- **Otros Componentes** 🔧 - Cables, adapters, thermal paste
+
+### 🎮 Input Peripherals
+- **Teclados** ⌨️ - Mechanical, wireless keyboards
+- **Ratones** 🖱️ - Gaming, ergonomic mice
+- **Mandos** 🎮 - Controllers, gamepads
+
+### 🖥️ Output & Display
+- **Monitores** 🖥️ - 4K, gaming, ultrawide displays
+- **Auriculares** 🎧 - Headsets, gaming audio
+
+### 🪑 Gaming Furniture
+- **Sillas Gaming** 🪑 - Ergonomic gaming chairs
+- **Mesas** 🗄️ - Gaming desks, height-adjustable
+
+### 🔌 Other Peripherals
+- **Otros Periféricos** 🖲️ - Webcams, microphones, USB hubs
+
+Each category includes extensive keyword matching for comprehensive trend analysis.
+
