@@ -241,7 +241,7 @@ if search_mode == "🔍 Manual":
         render_manual_search(search_query, selected_countries, selected_categories, relevance_threshold)
     elif not search_query or not search_button:
         # Welcome state
-        from src.components.render import render_empty_state
+        from abra.components.render import render_empty_state
         render_empty_state(
             icon="🚀",
             title="Bienvenido a Abra",
