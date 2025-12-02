@@ -9,6 +9,37 @@ import time
 import re
 import json
 import html
+from urllib.parse import urlparse
+
+
+def extract_brand_from_url(url):
+    """
+    Extract brand name from URL.
+    
+    Args:
+        url: URL string to extract brand from
+        
+    Returns:
+        Extracted brand name or empty string
+    """
+    try:
+        # Parse URL
+        parsed = urlparse(url)
+        domain = parsed.netloc or parsed.path
+        
+        # Remove www. prefix
+        domain = domain.replace('www.', '')
+        
+        # Get main domain name (before TLD)
+        parts = domain.split('.')
+        if len(parts) >= 2:
+            brand = parts[0]
+            # Capitalize first letter
+            return brand.capitalize()
+        
+        return domain
+    except Exception:
+        return ""
 
 
 
