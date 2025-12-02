@@ -26,39 +26,13 @@ def render_manual_search(search_query: str, selected_countries: list,
         selected_categories: Lista de categorías seleccionadas
         relevance_threshold: Umbral de relevancia
     """
-    # ELIMINADO: Selector de canal - Ahora analiza TODOS los canales automáticamente
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
-        <p style="color: white; margin: 0; font-weight: 600; text-align: center;">
-            🌐 Análisis Multi-Canal Automático: Web + Images + News + YouTube + Shopping
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2 = st.columns([4, 1])
-    
-    with col1:
-        search_query = st.text_input(
-            "Marca o keyword",
-            placeholder="Ej: Logitech, ASUS ROG, Razer...",
-            label_visibility="collapsed",
-            value=st.session_state.search_query,
-            key="manual_search_query"
-        )
-    
-    with col2:
-        st.markdown("<br>", unsafe_allow_html=True)
-        search_button = st.button("🔍 Analizar", type="primary", use_container_width=True, key="manual_search_button")
-    
-    if search_button and search_query and selected_countries:
-        # Usar nueva función multi-canal
-        try:
-            # Guardar query en session_state
-            st.session_state.search_query = search_query
-            
-            with st.spinner(f"🌐 Analizando '{search_query}' en todos los canales..."):
-                results = analyze_all_channels(search_query, selected_countries, selected_categories, relevance_threshold)
+    # Usar nueva función multi-canal
+    try:
+        # Guardar query en session_state
+        st.session_state.search_query = search_query
+        
+        with st.spinner(f"🌐 Analizando '{search_query}' en todos los canales..."):
+            results = analyze_all_channels(search_query, selected_countries, selected_categories, relevance_threshold)
             
             # Verificar si hay resultados
             if not results or all(not data for data in results.values()):
@@ -1185,20 +1159,9 @@ def render_manual_search(search_query: str, selected_countries: list,
                     st.info("No hay noticias disponibles")
                 
                 
-        except Exception as e:
-            st.error(f"❌ Error inesperado al procesar el análisis: {str(e)}")
-            st.info("💡 Intenta de nuevo o contacta soporte si el error persiste.")
-    
-    # SPRINT 4: Welcome empty state
-    else:
-        # Si no hay búsqueda, mostrar welcome
-        if not search_query or not search_button:
-            render_empty_state(
-                icon="🚀",
-                title="Bienvenido a Abra",
-                message="Introduce el nombre de una marca tecnológica para comenzar el análisis de tendencias de búsqueda. Descubre insights de múltiples países simultáneamente.",
-                suggestions=["logitech", "razer", "corsair", "keychron", "arozzi", "steelseries"]
-            )
+    except Exception as e:
+        st.error(f"❌ Error inesperado al procesar el análisis: {str(e)}")
+        st.info("💡 Intenta de nuevo o contacta soporte si el error persiste.")
 
 
 # ================================
