@@ -230,12 +230,13 @@ if search_mode == "🔍 Manual":
             "Marca o keyword",
             placeholder="Ej: Logitech, ASUS ROG, Razer...",
             label_visibility="collapsed",
-            value=st.session_state.search_query
+            value=st.session_state.search_query,
+            key="app_search_query"
         )
     
     with col2:
         st.markdown("<br>", unsafe_allow_html=True)
-        search_button = st.button("🔍 Analizar", type="primary", use_container_width=True)
+        search_button = st.button("🔍 Analizar", type="primary", use_container_width=True, key="app_search_button")
     
     if search_button and search_query and selected_countries:
         render_manual_search(search_query, selected_countries, selected_categories, relevance_threshold)
