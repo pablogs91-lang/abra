@@ -1,0 +1,25 @@
+# Core dependencies
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Scientific computing
+scipy>=1.10.0
+
+# PyTrends API
+pytrends>=4.9.2
+
+# Visualizations
+plotly>=5.14.0
+
+# PDF generation (opcional)
+reportlab>=4.0.0
+
+# HTTP requests
+requests>=2.31.0
+
+# SerpAPI for Google News
+google-search-results>=2.4.2
+
+# Data export
+openpyxl>=3.1.0

@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+recursive-include abra *.py
+recursive-include docs *.md
+recursive-include .streamlit *.toml
+prune tests
+prune docs/_build
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *$py.class
+global-exclude *.so
